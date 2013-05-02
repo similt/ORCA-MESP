@@ -1,7 +1,7 @@
 """
 (c) 2013 Marius Retegan
 
-License: BSD-2-Cluase
+License: BSD-2-Clause
 
 Description: Create a .cube file for the electrostatic potential using ORCA.
 
