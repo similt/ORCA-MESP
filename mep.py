@@ -11,13 +11,14 @@ Arguments: basename - file name without the extension;
                       this should be the same for the .gbw and .scfp.
            npoints  - number of grid points per side
                       (80 should be fine)
-Dependencies: numpy and subprocess
+Dependencies: numpy
 """
 
 #!/usr/bin/env python
 import sys
 import subprocess
 import numpy as np
+
 
 def read_xyz(xyz):
     atoms = []
@@ -35,6 +36,7 @@ def read_xyz(xyz):
         z.append(float(data[3]))
     f.close()
     return atoms, np.array(x), np.array(y), np.array(z)
+
 
 def read_vpot(vpot):
     v = []
@@ -92,7 +94,7 @@ if __name__ == "__main__":
                 mep_inp.write("{0:12.6f} {1:12.6f} {2:12.6f}\n".format(ix, iy, iz))
     mep_inp.close()
 
-    subprocess.check_call(["orca_vpot", basename + ".gbw", basename + ".scfp", \
+    subprocess.check_call(["orca_vpot", basename + ".gbw", basename + ".scfp",
             basename + "_mep.inp", basename + "_mep.out"])
 
     vpot = read_vpot(basename + "_mep.out")
@@ -100,20 +102,21 @@ if __name__ == "__main__":
     cube = open(basename + "_mep.cube", "w")
     cube.write("Generated with ORCA\n")
     cube.write("Electrostatic potential for " + basename + "\n")
-    cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}\n".format(len(atoms), \
-            xmin, ymin, zmin))
-    cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}\n".format(npoints, \
-            (xmax - xmin) / float(npoints - 1), 0.0, 0.0))
-    cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}\n".format(npoints, \
-            0.0, (ymax - ymin) / float(npoints - 1), 0.0))
-    cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}\n".format(npoints, \
-            0.0, 0.0, (zmax - zmin) / float(npoints - 1)))
+    cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}\n".format(
+        len(atoms), xmin, ymin, zmin))
+    cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}\n".format(
+        npoints, (xmax - xmin) / float(npoints - 1), 0.0, 0.0))
+    cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}\n".format(
+        npoints, 0.0, (ymax - ymin) / float(npoints - 1), 0.0))
+    cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}\n".format(
+        npoints, 0.0, 0.0, (zmax - zmin) / float(npoints - 1)))
     for i, atom in enumerate(atoms):
-        id = elements.index(atom)
-        cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}{4:12.6f}\n".format( \
-                id, 0.0, x[i] * ang_to_au, y[i] * ang_to_au, z[i] * ang_to_au))
+        index = elements.index(atom)
+        cube.write("{0:5d}{1:12.6f}{2:12.6f}{3:12.6f}{4:12.6f}\n".format(
+            index, 0.0, x[i] * ang_to_au, y[i] * ang_to_au, z[i] * ang_to_au))
 
-    m = 0; n = 0
+    m = 0
+    n = 0
     vpot = np.reshape(vpot, (npoints, npoints, npoints))
     for ix in range(npoints):
         for iy in range(npoints):
