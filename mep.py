@@ -3,7 +3,7 @@
 
 License: BSD-2-Clause
 
-Description: Create a .cube file for the electrostatic potential using ORCA.
+Description: Create a .cube file of the electrostatic potential using ORCA.
 
 Run: python mep.py basename npoints (e.g. python mep.py water 40)
 
