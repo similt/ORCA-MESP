@@ -1,4 +1,4 @@
-# ORCA input file used to generate the files needed for the MEP calcualtion.
+# ORCA input file used to generate the files needed for the MEP calculation.
 ! bp86 def2-svp keepdens xyzfile
 
 * xyz 0 1
