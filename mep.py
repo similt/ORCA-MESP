@@ -12,7 +12,6 @@ Arguments: basename - file name without the extension;
                       this should be the same for the .gbw and .scfp.
            npoints  - number of grid points per side
                       (80 should be fine)
-Dependencies: numpy
 """
 
 #!/usr/bin/env python
