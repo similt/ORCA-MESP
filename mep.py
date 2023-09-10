@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     if not os.path.isfile(xyz):
         sys.exit("Could not find the .xyz. To quickly generate one for "
-                 "your molecule run: echo 11 | orca_plot {basename}.gbw -i.")
+                 f"your molecule run: echo 11 | orca_plot {basename}.gbw -i.")
 
     atoms, x, y, z = read_xyz(xyz)
 
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     if orca_vpot is None:
         sys.exit(f"Could not find the orca_vpot executable.")
 
-    subprocess.check_call([orca_vpot, f"{basename}_mep.inp"])
+    subprocess.check_call(["orca_vpot", f"{basename}_mep.inp"])
 
     vpot = read_vpot(f"{basename}_mep.out")
 
